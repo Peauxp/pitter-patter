@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       child: SafeArea(
         child: MaterialApp(
           navigatorKey: rootNavigatorKey,
+          debugShowCheckedModeBanner: false,
           title: 'Gender Reveal',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
