@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gender_reveal/globals.dart';
+import 'package:gender_reveal/providers/gender_provider.dart';
 
-class CodeScreen extends StatefulWidget {
+class CodeScreen extends ConsumerStatefulWidget {
   const CodeScreen({super.key});
 
   @override
-  State<CodeScreen> createState() => _CodeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CodeScreenState();
 }
 
-class _CodeScreenState extends State<CodeScreen> {
+class _CodeScreenState extends ConsumerState<CodeScreen> {
   final TextEditingController _controller = TextEditingController();
   bool _isButtonVisible = false;
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
-      final isFilled = _controller.text.isNotEmpty;
-      if (isFilled != _isButtonVisible) {
-        // Update visibility only if the state changes
-        setState(() {
-          _isButtonVisible = isFilled;
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // Don't forget to dispose of the controller
+    _controller.dispose();
     super.dispose();
   }
 
@@ -35,13 +29,13 @@ class _CodeScreenState extends State<CodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color(0xFF3980D0),
-              Color(0xFFF490BB),
+              boyColor,
+              girlColor,
             ],
           ),
         ),
@@ -74,6 +68,15 @@ class _CodeScreenState extends State<CodeScreen> {
                     hintText: 'CODE',
                   ),
                   textCapitalization: TextCapitalization.characters,
+                  onFieldSubmitted: (value) {
+                    if (_isButtonVisible) {
+                      ref
+                          .read(currentGenderProvider.notifier)
+                          .set(_controller.text);
+                    } else {
+                      globalSnackBar(message: 'Incomplete Code');
+                    }
+                  },
                 ),
               ),
             ),
@@ -81,7 +84,7 @@ class _CodeScreenState extends State<CodeScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 50),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
@@ -90,7 +93,11 @@ class _CodeScreenState extends State<CodeScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(currentGenderProvider.notifier)
+                          .set(_controller.text);
+                    },
                     child: const Text(
                       'Submit',
                       style: TextStyle(color: Colors.white, fontSize: 24),

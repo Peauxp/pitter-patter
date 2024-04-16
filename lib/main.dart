@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gender_reveal/screens/code_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gender_reveal/screens/reveal_screen.dart';
+
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,12 +23,13 @@ class MyApp extends StatelessWidget {
       },
       child: SafeArea(
         child: MaterialApp(
+          navigatorKey: rootNavigatorKey,
           title: 'Gender Reveal',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const CodeScreen(),
+          home: const RevealScreen(),
         ),
       ),
     );
