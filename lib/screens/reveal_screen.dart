@@ -113,9 +113,7 @@ class _RevealScreenState extends ConsumerState<RevealScreen> {
                       ),
                     ),
                   ),
-                Positioned(
-                  top: top,
-                  left: left,
+                Center(
                   child: SizedBox(
                     height: buttonHeight,
                     width: buttonWidth,
