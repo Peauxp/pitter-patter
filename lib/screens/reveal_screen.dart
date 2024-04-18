@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +20,7 @@ class _RevealScreenState extends ConsumerState<RevealScreen> {
   double buttonHeight = 50;
 
   int tapCount = 0;
-  int tapLimit = 500;
+  int tapLimit = 300;
 
   double top =
       ((MediaQuery.of(rootNavigatorKey.currentContext!).size.height / 2) - 25)
@@ -34,25 +32,6 @@ class _RevealScreenState extends ConsumerState<RevealScreen> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void changeButtonPosition() {
-    Random random = Random();
-    int height =
-        (MediaQuery.of(rootNavigatorKey.currentContext!).size.height.toInt() -
-                View.of(rootNavigatorKey.currentContext!).padding.top -
-                View.of(rootNavigatorKey.currentContext!).padding.bottom -
-                buttonHeight)
-            .toInt();
-    int width =
-        (MediaQuery.of(rootNavigatorKey.currentContext!).size.width.toInt() -
-                buttonWidth)
-            .toInt();
-
-    setState(() {
-      top = random.nextInt(height).toDouble();
-      left = random.nextInt(width).toDouble();
-    });
   }
 
   increaseTapCount() {
